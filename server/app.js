@@ -32,5 +32,5 @@ app.use(cors(corsOptions));
 
 app.listen(PORT, (err) => {
   if (err) return console.log('Server failed to launch.', err.message);
-  console.log(`🤖 Server up at http://localhost:${PORT}`);
+  console.error(`🤖 Server up at http://localhost:${PORT}`);
 });

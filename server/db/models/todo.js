@@ -2,9 +2,7 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
-    static associate(models) {
-      this.belongsTo(models.User, { foreignKey: 'userId' });
-    }
+    static associate(models) {}
   }
   Todo.init(
     {
@@ -12,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       task: DataTypes.STRING,
       status: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
     },
     {
       sequelize,

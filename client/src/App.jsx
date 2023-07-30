@@ -1,5 +1,14 @@
+import { Route, Routes } from 'react-router-dom';
+import { TodoList } from './components/TodoList/TodoList';
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<TodoList />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;

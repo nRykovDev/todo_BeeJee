@@ -3,6 +3,8 @@ import todosReducer from './slices/todos.slice';
 import userReducer from './slices/users.slice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import thunk from 'redux-thunk';
+import hardSet from 'redux-persist/es/stateReconciler/hardSet';
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +14,7 @@ const persistConfig = {
 const persistedReducers = {
   todosReducer: persistReducer(persistConfig, todosReducer),
   userReducer: persistReducer(persistConfig, userReducer),
+  stateReconciler: hardSet,
 };
 
 export const store = configureStore({
@@ -19,6 +22,7 @@ export const store = configureStore({
     todosReducer: persistedReducers.todosReducer,
     userReducer: persistedReducers.userReducer,
   },
+  middleware: [thunk],
 });
 
 export const persistor = persistStore(store);

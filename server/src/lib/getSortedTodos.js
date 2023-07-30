@@ -1,4 +1,4 @@
-const { Todo } = require('../../../db/models'); // Import the Sequelize model for Todo Tasks
+const { Todo } = require('../../db/models'); // Import the Sequelize model for Todo Tasks
 
 const getSortedTodos = async (
   page,

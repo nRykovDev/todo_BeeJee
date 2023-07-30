@@ -1,10 +1,136 @@
+:root {
+  --main-color: #fad0c4;
+}
+
 body {
   margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #fad0c4, #ffe9d6);
 }
 
 #root {
+  margin: 0 auto;
   display: flex;
-  place-items: center;
-  width: 100vw;
-  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+}
+
+.container {
+  padding: 2% 1.5%;
+  height: 80%;
+  width: 35%;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 245, 238, 0.8);
+  border-radius: 25px;
+}
+
+.todoEntry {
+  margin: 0 auto 7%;
+  height: 15%;
+  width: 90%;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 245, 238, 0.8);
+  border-radius: 25px;
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 5%;
+  align-items: center;
+}
+
+.userInfo {
+  height: 65%;
+  width: 25%;
+  border-right: 2px #fad0c4 solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.userEmail {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.username {
+  margin: 0 0 0;
+  font-size: 18px;
+}
+
+.userInput {
+  margin-right: 10%;
+  border-radius: 5px;
+  border: 1px #fad0c4 solid;
+}
+
+.taskInput {
+  padding: 1%;
+  width: 44%;
+  margin-left: 3%;
+  border-radius: 15px;
+  border: 2px #fad0c4 solid;
+  height: 45%;
+}
+
+.status {
+  margin-left: auto;
+  border-radius: 15px;
+  width: 14%;
+  text-align: center;
+  font-size: 18px;
+}
+
+.task {
+  margin-left: 3%;
+  font-size: 20px;
+  max-width: 50%;
+  overflow-wrap: break-word;
+}
+
+.statusTodo {
+  border: 1px solid black;
+}
+
+.statusDone {
+  border: 1px solid rgb(49, 160, 49);
+  color: rgb(49, 160, 49);
+}
+
+.submit {
+  border: 1px solid var(--main-color);
+  background: none;
+  height: 55%;
+  color: var(--main-color);
+}
+
+.submit:hover {
+  border-color: aqua;
+  color: aqua;
+}
+
+.pageArrow {
+  margin: 0 2%;
+  font-size: 40px;
+  color: var(--main-color);
+}
+
+.pageArrow:hover {
+  color: aqua;
+}
+
+.pageSelect {
+  border-radius: 5px;
+}
+
+.pageMenu {
+  font-size: 18px;
+  border: 1px var(--main-color) solid;
+  background: none;
+}
+
+.pageContainer {
+  display: flex;
+  align-items: center;
 }

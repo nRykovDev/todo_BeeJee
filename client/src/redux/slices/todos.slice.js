@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   page: 1,
-  selectedTodos: [],
+  selectedTodos: { entries: [], entriesCount: 0 },
 };
 
 const todoSlice = createSlice({
@@ -24,16 +24,14 @@ const todoSlice = createSlice({
       state.selectedTodos = action.payload;
     },
     selectPage: (state, action) => {
-      state = {
-        page: action.payload.page,
-        selectedTodos: action.payload.selectedTodos,
-      };
+      state.page = action.payload.page;
+      state.selectedTodos = action.payload.selectedTodos;
     },
   },
 });
 
 export const { prevPage, nextPage, selectPage, editTodo } = todoSlice.actions;
 
-export const selectPageData = (state) => state.todoSlice;
+export const selectTodoData = (state) => state.todosReducer;
 
 export default todoSlice.reducer;

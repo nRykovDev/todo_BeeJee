@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getTodosThunk } from '../../redux/thunks/todoThunks';
+import { verifyInput } from './helperFuncs';
 
 export const Form = ({ page }) => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ export const Form = ({ page }) => {
     username: '',
     task: '',
   });
+  const [submitStatus, setSubmitStatus] = useState('');
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -16,23 +18,28 @@ export const Form = ({ page }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (verifyInput(formData, setSubmitStatus) !== 'valid') return;
     fetch('http://localhost:3000/todo/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     }).then(() => {
       dispatch(getTodosThunk(page));
+      setTimeout(() => {
+        setSubmitStatus('');
+      }, 3000);
+      setSubmitStatus('Task Added');
     });
   };
 
   return (
-    <form className="todoEntry" onSubmit={handleSubmit}>
+    <form className="todoEntry todoForm" onSubmit={handleSubmit}>
       <div className="userInfo formInfo">
         <input
           onChange={handleChange}
           className="userInput"
           name="email"
-          type="email"
+          type="text"
           placeholder="email"></input>
         <br />
         <input
@@ -51,6 +58,7 @@ export const Form = ({ page }) => {
       <button className="status submit" type="submit">
         Add
       </button>
+      <div className="submitStatus">{submitStatus}</div>
     </form>
   );
 };

@@ -1,12 +1,12 @@
 :root {
-  --main-color: #fad0c4;
+  --main-color: #aed9e0;
 }
 
 body {
   margin: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #fad0c4, #ffe9d6);
+  background: linear-gradient(to bottom, #d0e7eb, #aed9e0);
 }
 
 #root {
@@ -23,7 +23,7 @@ body {
   height: 80%;
   width: 35%;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
-  background-color: rgba(255, 245, 238, 0.8);
+  background-color: #e6eef0;
   border-radius: 25px;
 }
 
@@ -32,7 +32,7 @@ body {
   height: 15%;
   width: 90%;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
-  background-color: rgba(255, 245, 238, 0.8);
+  background-color: #e6eef0;
   border-radius: 25px;
   display: flex;
   justify-content: flex-start;
@@ -43,7 +43,7 @@ body {
 .userInfo {
   height: 65%;
   width: 25%;
-  border-right: 2px #fad0c4 solid;
+  border-right: 2px #e47f53 solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -62,7 +62,7 @@ body {
 .userInput {
   margin-right: 10%;
   border-radius: 5px;
-  border: 1px #fad0c4 solid;
+  border: 1px #e47f53 solid;
 }
 
 .taskInput {
@@ -70,7 +70,7 @@ body {
   width: 44%;
   margin-left: 3%;
   border-radius: 15px;
-  border: 2px #fad0c4 solid;
+  border: 2px #e47f53 solid;
   height: 45%;
 }
 
@@ -79,6 +79,7 @@ body {
   border-radius: 15px;
   width: 14%;
   text-align: center;
+  vertical-align: middle;
   font-size: 18px;
 }
 
@@ -90,34 +91,35 @@ body {
 }
 
 .statusTodo {
-  border: 1px solid black;
+  border: 1px solid #e47f53;
+  color: #e47f53;
 }
 
-.statusDone {
-  border: 1px solid rgb(49, 160, 49);
-  color: rgb(49, 160, 49);
-}
-
-.submit {
-  border: 1px solid var(--main-color);
-  background: none;
-  height: 55%;
+.statusTodo:hover {
+  border-color: var(--main-color);
   color: var(--main-color);
 }
 
+.submit {
+  border: 1px solid #e47f53;
+  background: none;
+  height: 55%;
+  color: #e47f53;
+}
+
 .submit:hover {
-  border-color: aqua;
-  color: aqua;
+  border-color: var(--main-color);
+  color: var(--main-color);
 }
 
 .pageArrow {
   margin: 0 2%;
   font-size: 40px;
-  color: var(--main-color);
+  color: #e47f53;
 }
 
 .pageArrow:hover {
-  color: aqua;
+  color: var(--main-color);
 }
 
 .pageSelect {
@@ -126,11 +128,83 @@ body {
 
 .pageMenu {
   font-size: 18px;
-  border: 1px var(--main-color) solid;
+  border: 1px #e47f53 solid;
   background: none;
 }
 
 .pageContainer {
   display: flex;
   align-items: center;
+}
+
+.sortContainer {
+  margin-bottom: 5%;
+  width: 45%;
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sortSelect {
+  margin-right: 3%;
+}
+
+.todoForm {
+  position: relative;
+}
+
+.submitStatus {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+}
+
+.authInput {
+  padding: 1%;
+  width: 12vw;
+  margin-left: 3%;
+  border-radius: 15px;
+  border: 2px #e47f53 solid;
+  height: 3vh;
+  margin: 1.5vh 0 3vh 0;
+}
+
+.authLabel {
+  color: #e47f53;
+  font-size: 20px;
+}
+
+.submitAuth {
+  height: 3vh !important;
+  width: 5vw;
+  border-radius: 8px;
+}
+
+.authContainer {
+  height: 50%;
+  width: 25%;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
+  background-color: #e6eef0;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.authHeader {
+  color: #e47f53;
+  margin-bottom: 5vh;
+}
+
+.authError {
+  position: absolute;
+  bottom: 25vh;
+}
+
+.authButton {
+  position: absolute;
+  color: #e47f53;
+  right: 5vh;
+  top: 5vh;
 }

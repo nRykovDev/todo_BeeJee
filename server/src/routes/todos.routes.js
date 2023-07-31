@@ -17,4 +17,12 @@ router.post('/', async (req, res) => {
   res.sendStatus(201);
 });
 
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const todo = await Todo.findOne({ where: { id } });
+  todo.status = !todo.status;
+  todo.save();
+  res.sendStatus(204);
+});
+
 module.exports = router;

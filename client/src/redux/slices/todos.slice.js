@@ -10,10 +10,13 @@ const todoSlice = createSlice({
   initialState,
   reducers: {
     editTodo: (state, action) => {
-      state.selectedTodos = state.selectedTodos.map((todo) => {
-        if (todo.id === action.payload.id) return action.payload;
-        return todo;
-      });
+      state.selectedTodos = {
+        ...state.selectedTodos,
+        entries: state.selectedTodos.entries.map((todo) => {
+          if (todo.id === action.payload.id) return action.payload;
+          return todo;
+        }),
+      };
     },
     prevPage: (state, action) => {
       state.page += 1;

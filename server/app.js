@@ -5,6 +5,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 
 const todoRoutes = require('./src/routes/todos.routes');
+const adminRoutes = require('./src/routes/admin.routes');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(
 app.use(cors(corsOptions));
 
 app.use('/todo', todoRoutes);
+app.use('/admin', adminRoutes);
 
 app.listen(PORT, (err) => {
   if (err) return console.log('Server failed to launch.', err.message);

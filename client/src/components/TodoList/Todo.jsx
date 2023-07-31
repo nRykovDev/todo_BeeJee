@@ -1,7 +1,17 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateStatusThunk } from '../../redux/thunks/todoThunks';
+import { selectUser } from '../../redux/slices/users.slice';
 
 export const Todo = ({ task }) => {
-  const [status, setStatus] = useState(task.status == 1 ? 'Done' : 'To Do');
+  const status = task.status == 1 ? 'Done' : 'To Do';
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+
+  const handleClick = () => {
+    if (user) return dispatch(updateStatusThunk(task));
+    return;
+  };
 
   return (
     <>
@@ -11,7 +21,7 @@ export const Todo = ({ task }) => {
           <p className="username">{task.username}</p>
         </div>
         <h6 className="task">{task.task}</h6>
-        <div className="status statusDone">
+        <div onClick={handleClick} className="status statusTodo">
           <p>{status}</p>
         </div>
       </div>

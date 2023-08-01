@@ -37,7 +37,7 @@ app.use(
 app.use('/admin', adminRoutes);
 app.use('/todo', todoRoutes);
 
-app.listen(PORT, (err) => {
+app.listen(PORT, '5.166.176.24', (err) => {
   if (err) return console.log('Server failed to launch.', err.message);
   console.error(`🤖 Server up at http://localhost:${PORT}`);
 });

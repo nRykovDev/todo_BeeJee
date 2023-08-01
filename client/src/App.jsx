@@ -1,8 +1,23 @@
 import { Route, Routes } from 'react-router-dom';
 import { TodoList } from './components/TodoList/TodoList';
 import { Auth } from './components/Auth/Auth';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { unsetUser } from './redux/slices/users.slice';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch('http://localhost:3000/admin/check', {
+      credentials: 'include',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (!result.authorized) dispatch(unsetUser());
+      });
+  });
+
   return (
     <>
       <Routes>

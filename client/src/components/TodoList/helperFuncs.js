@@ -6,25 +6,37 @@ const getPages = (pageNum) => {
   return pages;
 };
 
-export const verifyInput = (formData, setSubmitStatus) => {
+export const verifyInput = (formData, dispatch, setError) => {
   const regexpEmail = /^[\w.-]+@[\w.-]+\.\w+$/;
+  if (!formData.email.length) {
+    setTimeout(() => {
+      dispatch(setError(''));
+    }, 3000);
+    return dispatch(setError('No email entered'));
+  }
   if (!regexpEmail.test(formData.email)) {
     setTimeout(() => {
-      setSubmitStatus('');
+      dispatch(setError(''));
     }, 3000);
-    return setSubmitStatus('invalid Email');
+    return dispatch(setError('Invalid email'));
   }
   if (!formData.username.length) {
     setTimeout(() => {
-      setSubmitStatus('');
+      dispatch(setError(''));
     }, 3000);
-    return setSubmitStatus('Invalid username');
+    return dispatch(setError('No username entered'));
   }
   if (!formData.task.length) {
     setTimeout(() => {
-      setSubmitStatus('');
+      dispatch(setError(''));
     }, 3000);
-    return setSubmitStatus('Invalid task name');
+    return dispatch(setError('No task entered'));
+  }
+  if (formData.task.length > 80) {
+    setTimeout(() => {
+      dispatch(setError(''));
+    }, 3000);
+    return dispatch(setError('Task name is too long'));
   }
   return 'valid';
 };

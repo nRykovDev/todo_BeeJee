@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   sortBy: 'createdAt',
   direction: 'desc',
+  error: '',
 };
 
 const pageSlice = createSlice({
@@ -15,11 +16,14 @@ const pageSlice = createSlice({
     setDirection: (state, action) => {
       state.direction = action.payload;
     },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const { setSortBy, setDirection } = pageSlice.actions;
+export const { setSortBy, setDirection, setError } = pageSlice.actions;
 
-export const selectPageData = (state) => state.pageReducer;
+export const selectPageData = (state) => state.persistedReducer.pageReducer;
 
 export default pageSlice.reducer;

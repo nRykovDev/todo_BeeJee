@@ -17,6 +17,7 @@ export const Auth = () => {
     e.preventDefault();
     fetch('http://localhost:3000/admin', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     })

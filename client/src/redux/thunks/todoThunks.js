@@ -1,3 +1,4 @@
+import { setError } from '../slices/pageStates.slice';
 import { editTodo, selectPage } from '../slices/todos.slice';
 
 export const getTodosThunk =
@@ -13,5 +14,11 @@ export const getTodosThunk =
 export const updateStatusThunk = (todo) => (dispatch) => {
   fetch(`http://localhost:3000/todo/${todo.id}`, {
     method: 'PATCH',
-  }).then(() => dispatch(editTodo({ ...todo, status: !todo.status })));
+    credentials: 'include',
+  }).then((res) => {
+    if (res.status === 403) {
+      return dispatch(setError('Please authorize'));
+    }
+    dispatch(editTodo({ ...todo, status: !todo.status }));
+  });
 };

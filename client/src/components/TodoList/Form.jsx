@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getTodosThunk } from '../../redux/thunks/todoThunks';
 import { verifyInput } from './helperFuncs';
+import getPages from './helperFuncs';
+import { selectPageData, setError } from '../../redux/slices/pageStates.slice';
 
-export const Form = ({ page }) => {
+export const Form = ({ page, setPages, entriesCount }) => {
   const [formData, setFormData] = useState({
     email: '',
     username: '',
@@ -11,6 +13,7 @@ export const Form = ({ page }) => {
   });
   const [submitStatus, setSubmitStatus] = useState('');
   const dispatch = useDispatch();
+  const pageData = useSelector(selectPageData);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.currentTarget.name]: e.currentTarget.value });
@@ -18,9 +21,10 @@ export const Form = ({ page }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (verifyInput(formData, setSubmitStatus) !== 'valid') return;
+    if (verifyInput(formData, dispatch, setError) !== 'valid') return;
     fetch('http://localhost:3000/todo/', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     }).then(() => {
@@ -30,12 +34,19 @@ export const Form = ({ page }) => {
       }, 3000);
       setSubmitStatus('Task Added');
     });
+    setPages([...getPages(Math.ceil(entriesCount / 3))]);
+    setFormData({
+      email: '',
+      username: '',
+      task: '',
+    });
   };
 
   return (
     <form className="todoEntry todoForm" onSubmit={handleSubmit}>
       <div className="userInfo formInfo">
         <input
+          value={formData.email}
           onChange={handleChange}
           className="userInput"
           name="email"
@@ -43,6 +54,7 @@ export const Form = ({ page }) => {
           placeholder="email"></input>
         <br />
         <input
+          value={formData.username}
           onChange={handleChange}
           className="userInput"
           name="username"
@@ -50,6 +62,7 @@ export const Form = ({ page }) => {
           placeholder="username"></input>
       </div>
       <textarea
+        value={formData.task}
         onChange={handleChange}
         className="taskInput"
         name="task"
@@ -58,7 +71,9 @@ export const Form = ({ page }) => {
       <button className="status submit" type="submit">
         Add
       </button>
-      <div className="submitStatus">{submitStatus}</div>
+      <div className="submitStatus">
+        {pageData.error.length ? pageData.error : submitStatus}
+      </div>
     </form>
   );
 };

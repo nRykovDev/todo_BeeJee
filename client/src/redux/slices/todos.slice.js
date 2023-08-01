@@ -35,6 +35,6 @@ const todoSlice = createSlice({
 
 export const { prevPage, nextPage, selectPage, editTodo } = todoSlice.actions;
 
-export const selectTodoData = (state) => state.todosReducer;
+export const selectTodoData = (state) => state.persistedReducer.todosReducer;
 
 export default todoSlice.reducer;

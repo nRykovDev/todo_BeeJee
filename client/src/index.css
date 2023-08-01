@@ -38,6 +38,7 @@ body {
   justify-content: flex-start;
   padding: 0 5%;
   align-items: center;
+  position: relative;
 }
 
 .userInfo {
@@ -93,6 +94,8 @@ body {
 .statusTodo {
   border: 1px solid #e47f53;
   color: #e47f53;
+  height: 55%;
+  background: none;
 }
 
 .statusTodo:hover {
@@ -207,4 +210,27 @@ body {
   color: #e47f53;
   right: 5vh;
   top: 5vh;
+}
+
+.editBtn {
+  position: absolute;
+  top: 65%;
+  left: 18%;
+  background: none;
+  border: 1px #e47f53 solid;
+  color: #e47f53;
+  border-radius: 5px;
+}
+
+.editBtn:hover {
+  border-color: var(--main-color);
+  color: var(--main-color);
+}
+
+.edited {
+  position: absolute;
+  color: #8b8b8b;
+  font-size: 14px;
+  left: 31%;
+  top: 5%;
 }

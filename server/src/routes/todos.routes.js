@@ -13,11 +13,22 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { username, email, task } = req.body;
-  await Todo.create({ email, username, task, status: false });
+  await Todo.create({ email, username, task, status: false, edited: false });
   res.sendStatus(201);
 });
 
+router.patch('/edited', async (req, res) => {
+  if (!req.session?.user?.authorized) return res.sendStatus(403);
+  const { id, newText } = req.body;
+  const todo = await Todo.findOne({ where: { id } });
+  todo.edited = true;
+  todo.task = newText;
+  todo.save();
+  res.sendStatus(204);
+});
+
 router.patch('/:id', async (req, res) => {
+  if (!req.session?.user?.authorized) return res.sendStatus(403);
   const { id } = req.params;
   const todo = await Todo.findOne({ where: { id } });
   todo.status = !todo.status;

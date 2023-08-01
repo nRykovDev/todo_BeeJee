@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       task: DataTypes.STRING,
       status: DataTypes.BOOLEAN,
+      edited: DataTypes.BOOLEAN,
     },
     {
       sequelize,

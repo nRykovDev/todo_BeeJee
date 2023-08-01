@@ -52,7 +52,6 @@ export const TodoList = () => {
     }
 
     if (todos.page == pages[pages.length - 1]) return;
-    console.log('next');
     dispatch(
       getTodosThunk(
         +todos.page + 1,
@@ -63,7 +62,9 @@ export const TodoList = () => {
   };
 
   const handleLogout = () => {
-    dispatch(unsetUser());
+    fetch('http://localhost:3000/admin/logout', {
+      credentials: 'include',
+    }).then(() => dispatch(unsetUser()));
   };
 
   useEffect(() => {
@@ -100,7 +101,12 @@ export const TodoList = () => {
         <Todo key={todo.id} task={todo}></Todo>
       ))
     );
-    setPages([...getPages(Math.ceil(todos.selectedTodos.entriesCount / 3))]);
+    setPages([
+      ...getPages(Math.ceil(todos.selectedTodos.entriesCount / 3) || 1),
+    ]);
+  }, [todos]);
+
+  useEffect(() => {
     setPagesMapped(
       pages.map((page) => (
         <option className="pageOption pageMenu" key={page} value={page}>
@@ -108,7 +114,7 @@ export const TodoList = () => {
         </option>
       ))
     );
-  }, [todos]);
+  }, [pages]);
 
   return (
     <>
@@ -130,7 +136,11 @@ export const TodoList = () => {
           </button>
         </div>
         {todosMapped}
-        <Form page={todos.page} />
+        <Form
+          page={todos.page}
+          entriesCount={todos.selectedTodos.entriesCount}
+          setPages={setPages}
+        />
         <div className="pageContainer">
           <span onClick={() => handlePageArrow('prev')} className="pageArrow">
             {'<'}

@@ -15,16 +15,17 @@ app.use(express.json());
 const { PORT, COOKIE_SECRET } = process.env;
 const corsOptions = {
   credentials: true,
-  origin: '*',
+  origin: 'http://localhost:5173',
 };
 
+app.use(cors(corsOptions));
 app.use(
   session({
     name: 'UserAuth',
     store: new FileStore(),
     secret: COOKIE_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       secure: false,
       maxAge: 1000 * 60 * 60 * 24 * 2,
@@ -32,10 +33,9 @@ app.use(
     },
   })
 );
-app.use(cors(corsOptions));
 
-app.use('/todo', todoRoutes);
 app.use('/admin', adminRoutes);
+app.use('/todo', todoRoutes);
 
 app.listen(PORT, (err) => {
   if (err) return console.log('Server failed to launch.', err.message);

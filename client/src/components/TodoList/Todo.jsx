@@ -28,7 +28,6 @@ export const Todo = ({ task }) => {
       if (taskInput.length > 80) return setError('Task name is too long');
       return fetch('https://bgtestserver.onrender.com/todo/edited', {
         method: 'PATCH',
-        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: task.id, newText: taskInput }),
       }).then((res) => {

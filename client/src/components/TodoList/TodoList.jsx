@@ -64,9 +64,9 @@ export const TodoList = () => {
   };
 
   const handleLogout = () => {
-    fetch('https://bgtestserver.onrender.com/admin/logout', {
-      credentials: 'include',
-    }).then(() => dispatch(unsetUser()));
+    fetch('https://bgtestserver.onrender.com/admin/logout', {}).then(() =>
+      dispatch(unsetUser())
+    );
   };
 
   useEffect(() => {

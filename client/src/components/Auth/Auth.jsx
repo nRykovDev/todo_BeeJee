@@ -19,7 +19,6 @@ export const Auth = () => {
     e.preventDefault();
     fetch('https://bgtestserver.onrender.com/admin', {
       method: 'POST',
-      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     })

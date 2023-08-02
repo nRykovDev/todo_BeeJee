@@ -14,7 +14,6 @@ export const getTodosThunk =
 export const updateStatusThunk = (todo) => (dispatch) => {
   fetch(`https://bgtestserver.onrender.com/todo/${todo.id}`, {
     method: 'PATCH',
-    credentials: 'include',
   }).then((res) => {
     if (res.status === 403) {
       return dispatch(setError('Please authorize'));

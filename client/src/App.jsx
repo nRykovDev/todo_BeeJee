@@ -9,9 +9,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('https://bgtestserver.onrender.com/admin/check', {
-      credentials: 'include',
-    })
+    fetch('https://bgtestserver.onrender.com/admin/check')
       .then((response) => response.json())
       .then((result) => {
         if (!result.authorized) dispatch(unsetUser());

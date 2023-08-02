@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateStatusThunk } from '../../redux/thunks/todoThunks';
 import { selectUser } from '../../redux/slices/users.slice';
@@ -10,22 +10,13 @@ export const Todo = ({ task }) => {
   const dispatch = useDispatch();
   const [taskInput, setTaskInput] = useState(task.task);
   const user = useSelector(selectUser);
-  const pageData = useSelector(selectPageData);
 
   const status = task.status == 1 ? 'Done' : 'To Do';
 
   const handleClickStatus = () => {
     if (user) return dispatch(updateStatusThunk(task));
-    return;
+    return dispatch(setError('Please authorize'));
   };
-
-  useEffect(() => {
-    if (pageData.error === 'Please authorize') {
-      setTimeout(() => {
-        dispatch(setError(''));
-      }, 3000);
-    }
-  }, [pageData.error]);
 
   const handleChangeEdit = (e) => {
     if (!user) return;
@@ -35,14 +26,20 @@ export const Todo = ({ task }) => {
   const handleSubmitEdit = async () => {
     if (editing) {
       if (taskInput.length > 80) return setError('Task name is too long');
-      return fetch('http://localhost:3000/todo/edited', {
+      return fetch('https://bgtestserver.onrender.com/todo/edited', {
         method: 'PATCH',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: task.id, newText: taskInput }),
       }).then((res) => {
         if (res.status === 403) return dispatch(setError('Please authorize'));
-        dispatch(editTodo({ ...task, task: taskInput, edited: true }));
+        dispatch(
+          editTodo({
+            ...task,
+            task: taskInput,
+            edited: res.status == 304 ? false : true,
+          })
+        );
         setEditing(false);
       });
     }
@@ -65,8 +62,8 @@ export const Todo = ({ task }) => {
           <p className="username">{task.username}</p>
         </div>
         {editing ? (
-          <input
-            className="task"
+          <textarea
+            className="taskInput"
             onChange={handleChangeEdit}
             value={taskInput}
           />

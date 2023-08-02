@@ -2,22 +2,24 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectTodoData } from '../../redux/slices/todos.slice';
 import { getTodosThunk } from '../../redux/thunks/todoThunks';
-import { setDirection, setSortBy } from '../../redux/slices/pageStates.slice';
 import { Todo } from './Todo';
 import { useState } from 'react';
 import { Form } from './Form';
 import getPages from './helperFuncs';
-import { selectPageData } from '../../redux/slices/pageStates.slice';
+import {
+  selectPageData,
+  setError,
+  setDirection,
+  setSortBy,
+} from '../../redux/slices/pageStates.slice';
 import { selectUser, unsetUser } from '../../redux/slices/users.slice';
 
 export const TodoList = () => {
   const dispatch = useDispatch();
   const todos = useSelector(selectTodoData);
   const [todosMapped, setTodosMapped] = useState([]);
-  const [pages, setPages] = useState([1]);
   const [pagesMapped, setPagesMapped] = useState([]);
   const pageData = useSelector(selectPageData);
-  const [authBtn, setAuthBtn] = useState();
   const user = useSelector(selectUser);
 
   const handleSortChange = (e) => {
@@ -40,8 +42,8 @@ export const TodoList = () => {
   };
 
   const handlePageArrow = (direction) => {
+    if (direction === 'prev' && todos.page === 1) return;
     if (direction === 'prev') {
-      if (todos.page === 1) return;
       return dispatch(
         getTodosThunk(
           todos.page - 1,
@@ -51,7 +53,7 @@ export const TodoList = () => {
       );
     }
 
-    if (todos.page == pages[pages.length - 1]) return;
+    if (todos.page == pagesMapped.length) return;
     dispatch(
       getTodosThunk(
         +todos.page + 1,
@@ -62,28 +64,18 @@ export const TodoList = () => {
   };
 
   const handleLogout = () => {
-    fetch('http://localhost:3000/admin/logout', {
+    fetch('https://bgtestserver.onrender.com/admin/logout', {
       credentials: 'include',
     }).then(() => dispatch(unsetUser()));
   };
 
   useEffect(() => {
-    if (user)
-      return setAuthBtn(
-        <button
-          onClick={handleLogout}
-          className="authButton pageMenu pageSelect">
-          logout
-        </button>
-      );
-    setAuthBtn(
-      <a href="/admin">
-        <button className="authButton pageMenu pageSelect">
-          Login as admin
-        </button>
-      </a>
-    );
-  }, [user]);
+    if (pageData.error.length) {
+      setTimeout(() => {
+        dispatch(setError(''));
+      }, 3000);
+    }
+  }, [pageData.error]);
 
   useEffect(() => {
     dispatch(
@@ -101,24 +93,26 @@ export const TodoList = () => {
         <Todo key={todo.id} task={todo}></Todo>
       ))
     );
-    setPages([
-      ...getPages(Math.ceil(todos.selectedTodos.entriesCount / 3) || 1),
-    ]);
-  }, [todos]);
-
-  useEffect(() => {
     setPagesMapped(
-      pages.map((page) => (
-        <option className="pageOption pageMenu" key={page} value={page}>
-          {page}
-        </option>
-      ))
+      getPages(Math.ceil(todos.selectedTodos.entriesCount / 3) || 1)
     );
-  }, [pages]);
+  }, [todos]);
 
   return (
     <>
-      {authBtn}
+      {user ? (
+        <button
+          onClick={handleLogout}
+          className="authButton pageMenu pageSelect">
+          logout
+        </button>
+      ) : (
+        <a href="/admin">
+          <button className="authButton pageMenu pageSelect">
+            Login as admin
+          </button>
+        </a>
+      )}
       <div className="container">
         <div className="sortContainer">
           <select
@@ -139,7 +133,7 @@ export const TodoList = () => {
         <Form
           page={todos.page}
           entriesCount={todos.selectedTodos.entriesCount}
-          setPages={setPages}
+          setPagesMapped={setPagesMapped}
         />
         <div className="pageContainer">
           <span onClick={() => handlePageArrow('prev')} className="pageArrow">

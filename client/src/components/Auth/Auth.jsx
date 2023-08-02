@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../../redux/slices/users.slice';
+import { selectPageData } from '../../redux/slices/pageStates.slice';
+import { setError } from '../../redux/slices/pageStates.slice';
 
 export const Auth = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [error, setError] = useState('');
+  const pageData = useSelector(selectPageData);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.currentTarget.name]: e.currentTarget.value });
@@ -15,7 +17,7 @@ export const Auth = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3000/admin', {
+    fetch('https://bgtestserver.onrender.com/admin', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -25,9 +27,9 @@ export const Auth = () => {
       .then((result) => {
         if (!result.authorized) {
           setTimeout(() => {
-            setError('');
+            dispatch(setError(''));
           }, 3000);
-          return setError('Wrong username or password');
+          return dispatch(setError('Wrong username or password'));
         }
         dispatch(setUser());
         navigate('/', { replace: true });
@@ -63,7 +65,7 @@ export const Auth = () => {
       <button className="submit submitAuth" type="submit">
         Log in
       </button>
-      <h4 className="authError">{error}</h4>
+      <h4 className="authError">{pageData.error}</h4>
     </form>
   );
 };

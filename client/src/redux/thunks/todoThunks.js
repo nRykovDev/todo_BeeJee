@@ -5,14 +5,14 @@ export const getTodosThunk =
   (page = 1, sortBy = 'updatedAt', direction = 'desc') =>
   (dispatch) => {
     fetch(
-      `http://localhost:3000/todo?page=${page}&sortBy=${sortBy}&direction=${direction}`
+      `https://bgtestserver.onrender.com/todo?page=${page}&sortBy=${sortBy}&direction=${direction}`
     )
       .then((response) => response.json())
       .then((result) => dispatch(selectPage({ page, selectedTodos: result })));
   };
 
 export const updateStatusThunk = (todo) => (dispatch) => {
-  fetch(`http://localhost:3000/todo/${todo.id}`, {
+  fetch(`https://bgtestserver.onrender.com/todo/${todo.id}`, {
     method: 'PATCH',
     credentials: 'include',
   }).then((res) => {

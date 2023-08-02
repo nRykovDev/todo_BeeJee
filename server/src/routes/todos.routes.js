@@ -18,9 +18,10 @@ router.post('/', async (req, res) => {
 });
 
 router.patch('/edited', async (req, res) => {
-  if (!req.session?.user?.authorized) return res.sendStatus(403);
+  if (!req.app.locals.user) return res.sendStatus(403);
   const { id, newText } = req.body;
   const todo = await Todo.findOne({ where: { id } });
+  if (todo.task === newText) return res.sendStatus(304);
   todo.edited = true;
   todo.task = newText;
   todo.save();
@@ -28,7 +29,7 @@ router.patch('/edited', async (req, res) => {
 });
 
 router.patch('/:id', async (req, res) => {
-  if (!req.session?.user?.authorized) return res.sendStatus(403);
+  if (!req.app.locals.user) return res.sendStatus(403);
   const { id } = req.params;
   const todo = await Todo.findOne({ where: { id } });
   todo.status = !todo.status;

@@ -1,27 +1,22 @@
 const router = require('express').Router();
 
+// Здесь была авторизация на сессиях, но её пришлось убрать потому что хостинг с public suffix domain'ом не поддерживает cross-origin куки(
 router.post('/', (req, res) => {
   const { username, password } = req.body;
   if (!(username === 'admin' && password === '123')) {
     return res.json({ authorized: false });
   }
-  req.session.user = { authorized: true };
-  return res.json(req.session.user);
+  req.app.locals.user = { authorized: true };
+  return res.json(req.app.locals.user);
 });
 
 router.get('/logout', (req, res) => {
-  req.session.destroy((e) => {
-    if (e) {
-      console.log(e);
-      return;
-    }
-    res.clearCookie('UserAuth');
-    res.sendStatus(200);
-  });
+  req.app.locals.user = null;
+  res.sendStatus(200);
 });
 
 router.get('/check', (req, res) => {
-  if (!req.session?.user) return res.json({ authorized: false });
+  if (!req.app.locals.user) return res.json({ authorized: false });
   res.json({ authorized: true });
 });
 

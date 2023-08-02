@@ -9,7 +9,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('http://localhost:3000/admin/check', {
+    fetch('https://bgtestserver.onrender.com/admin/check', {
       credentials: 'include',
     })
       .then((response) => response.json())

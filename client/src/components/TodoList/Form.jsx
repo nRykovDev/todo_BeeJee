@@ -5,7 +5,7 @@ import { verifyInput } from './helperFuncs';
 import getPages from './helperFuncs';
 import { selectPageData, setError } from '../../redux/slices/pageStates.slice';
 
-export const Form = ({ page, setPages, entriesCount }) => {
+export const Form = ({ page, setPagesMapped, entriesCount }) => {
   const [formData, setFormData] = useState({
     email: '',
     username: '',
@@ -22,24 +22,27 @@ export const Form = ({ page, setPages, entriesCount }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (verifyInput(formData, dispatch, setError) !== 'valid') return;
-    fetch('http://localhost:3000/todo/', {
+    fetch('https://bgtestserver.onrender.com/todo/', {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
-    }).then(() => {
-      dispatch(getTodosThunk(page));
-      setTimeout(() => {
-        setSubmitStatus('');
-      }, 3000);
-      setSubmitStatus('Task Added');
-    });
-    setPages([...getPages(Math.ceil(entriesCount / 3))]);
-    setFormData({
-      email: '',
-      username: '',
-      task: '',
-    });
+    })
+      .then(() => {
+        dispatch(getTodosThunk(page));
+        setTimeout(() => {
+          setSubmitStatus('');
+        }, 3000);
+        setSubmitStatus('Task Added');
+      })
+      .then(() => {
+        setPagesMapped(getPages(Math.ceil(entriesCount / 3) || 1));
+        setFormData({
+          email: '',
+          username: '',
+          task: '',
+        });
+      });
   };
 
   return (

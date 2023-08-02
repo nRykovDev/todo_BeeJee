@@ -1,20 +1,23 @@
 {
   "development": {
-    "use_env_variable": "DB_URL",
+    "username": "sql7636755",
+    "password": "7pzjjf9RmT",
+    "database": "sql7636755",
+    "host": "sql7.freemysqlhosting.net",
     "dialect": "mysql"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": "sql7636755",
+    "password": "7pzjjf9RmT",
+    "database": "sql7636755",
+    "host": "sql7.freemysqlhosting.net",
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "sql7636755",
+    "password": "7pzjjf9RmT",
+    "database": "sql7636755",
+    "host": "sql7.freemysqlhosting.net",
     "dialect": "mysql"
   }
 }
